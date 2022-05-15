@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" almacenamiento de airbnb
+""" database storage class for AirBnB
 """
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -19,7 +19,7 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """ inicializa una intancia de la clase DBStorage """
+        """ Inicialize an instance of the class DBStorage """
 
         HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
         HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
@@ -34,7 +34,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """ script de consulta """
+        """ query session currenty of the database """
 
         d = {}
 
@@ -52,24 +52,25 @@ class DBStorage:
         return d
 
     def new(self, obj):
-        """ agrega objetos a la bd """
+        """ Add object to actually database """
         self.__session.add(obj)
 
     def save(self):
-        """ confirma los cambios """
+        """ Commit all changes to actually database """
         self.__session.commit()
 
     def delete(self, obj=None):
-        """ elimina de la base de datos """
+        """ Deleted from actually database """
         self.__session.delete(obj)
 
     def reload(self):
-        """ carga los datos """
+        """ load storage """
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         self.__session = scoped_session(session_factory)
 
     def close(self):
-        """elimina la sesion"""
+        """ remove session
+        """
         self.__session.remove()
