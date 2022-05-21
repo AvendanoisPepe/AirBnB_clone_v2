@@ -30,7 +30,7 @@ sudo ln -sf /data/web_static/releases/test /data/web_static/current
 sudo chown -hR ubuntu:ubuntu /data
 
 # Agregar alias para servir el contenido de /data/web_static/current a hbnb_static
-sudo sed -i '/listen 80 default_server; a\ \tlocation /hbnb_static { alias /data/web_static/current/;}' /etc/nginx/sites-available/default
+sed -i '/listen 80 default_server;/a location /hbnb_static { alias /data/web_static/current/;}' /etc/nginx/sites-available/default
 
 # reiniciamos el servicio.
 sudo service nginx restart
