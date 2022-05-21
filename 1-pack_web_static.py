@@ -14,7 +14,7 @@ def do_pack():
     locales, al igual que creamos el archivo .tgz"""
     local("mkdir -p versions")
     nombre = datetime.now().strftime("%Y%m%d%H%M%S")
-    archivo = "web_static_{}.tgz".format(nombre)
+    archivo = "versions/web_static_{}.tgz".format(nombre)
     local("tar -cvzf {} web_static".format(archivo))
     if archivo:
         return(archivo)
