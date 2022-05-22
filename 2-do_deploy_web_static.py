@@ -28,7 +28,6 @@ def do_deploy(archive_path):
         url = "/data/web_static/releases/"
         nombre = archive_path.split('.')[0].split('/')[1]
         destino = url + nombre
-        #/data/web_static/releases/web_static_20170315003959.tg
         try:
             put(archive_path, '/tmp')
             run('mkdir -p {}'.format(destino))
@@ -39,7 +38,7 @@ def do_deploy(archive_path):
             run('rm -rf /data/web_static/current')
             run('ln -s {} /data/web_static/current'.format(dest))
             return(True)
-        except:
+        except Exception:
             return(False)
     else:
         return(False)
