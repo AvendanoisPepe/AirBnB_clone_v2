@@ -34,7 +34,7 @@ def do_deploy(archive_path):
         run("sudo tar -xzf {} -C {}/".format(path_server_file, new_path))
         run('sudo rm {}'.format(path_server_file))
         run('sudo rm -rf {}'.format('/data/web_static/current'))
-        run('sudo ln -s {} /data/web_static/current'.format(new_path))
+        run('sudo ln -s {} /data/web_static/current'.format("/data/web_static/releases/web_static"))
         print("New version deployed!")
         return True
 
