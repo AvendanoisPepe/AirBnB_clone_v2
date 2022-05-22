@@ -7,7 +7,7 @@ from datetime import datetime
 import os
 
 env.hosts = ["34.73.84.99", "3.93.174.191"]
-
+env.user = "ubuntu"
 
 def do_pack():
     """Creamos la carpeta versions usando fabric y sus comandos
@@ -23,26 +23,25 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """ Distributes an archive to your web servers. """
-
+    """
+    Function that distributes an archive.
+    """
+    name_dir = archive_path[9:-4]
     if os.path.exists(archive_path):
-        path = "/data/web_static/releases/"
-        name = archive_path.split('.')[0].split('/')[1]
-        dest = path + name
-
-        try:
-            put(archive_path, '/tmp')
-            run('mkdir -p {}'.format(dest))
-            run('tar -xzf /tmp/{}.tgz -C {}'.format(name, dest))
-            run('rm -f /tmp/{}.tgz'.format(name))
-            run('mv {}/web_static/* {}/'.format(dest, dest))
-            run('rm -rf {}/web_static'.format(dest))
-            run('rm -rf /data/web_static/current')
-            run('ln -s {} /data/web_static/current'.format(dest))
-
-            return True
-
-        except Exception:
-            return False
+        put(archive_path, '/tmp/')
+        run("sudo mkdir -p /data/web_static/releases/{}/".format(name_dir))
+        run("sudo tar -xzf /tmp/{}.tgz -C \
+        /data/web_static/releases/{}/".format(name_dir, name_dir))
+        run("sudo rm /tmp/{}.tgz".format(name_dir))
+        run("sudo mv /data/web_static/releases/{}/web_static/* \
+            /data/web_static/releases/{}/".
+            format(name_dir, name_dir))
+        run("sudo rm -rf /data/web_static/releases/{}/web_static"
+            .format(name_dir))
+        run("sudo rm -rf /data/web_static/current")
+        run("sudo ln -s /data/web_static/releases/{}/ \
+            /data/web_static/current".format(name_dir))
+        print("New version deployed!")
+        return True
     else:
         return False
