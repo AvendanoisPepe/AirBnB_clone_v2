@@ -23,22 +23,26 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """Distribuye un archivo a sus servidores web."""
+    """ Distributes an archive to your web servers. """
+
     if os.path.exists(archive_path):
-        url = "/data/web_static/releases/"
-        nombre = archive_path.split('.')[0].split('/')[1]
-        destino = url + nombre
+        path = "/data/web_static/releases/"
+        name = archive_path.split('.')[0].split('/')[1]
+        dest = path + name
+
         try:
             put(archive_path, '/tmp')
-            run('mkdir -p {}'.format(destino))
-            run('tar -xzf /tmp/{}.tgz -C {}'.format(nombre, destino))
-            run('rm -f /tmp/{}.tgz'.format(nombre))
-            run('mv {}/web_static/* {}/'.format(destino, destino))
-            run('rm -rf {}/web_static'.format(destino))
+            run('mkdir -p {}'.format(dest))
+            run('tar -xzf /tmp/{}.tgz -C {}'.format(name, dest))
+            run('rm -f /tmp/{}.tgz'.format(name))
+            run('mv {}/web_static/* {}/'.format(dest, dest))
+            run('rm -rf {}/web_static'.format(dest))
             run('rm -rf /data/web_static/current')
             run('ln -s {} /data/web_static/current'.format(dest))
-            return(True)
+
+            return True
+
         except Exception:
-            return(False)
+            return False
     else:
-        return(False)
+        return False
