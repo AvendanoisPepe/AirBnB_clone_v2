@@ -24,7 +24,7 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    
+    """distribuye un archivo a los servidores web"""
     if path.isfile(archive_path):
         name_file = archive_path[9:]
         new_path = "/data/web_static/releases/"
