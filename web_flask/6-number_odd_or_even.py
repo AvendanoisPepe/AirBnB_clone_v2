@@ -64,7 +64,9 @@ def funcioncitaNumPagPar(n):
             mm = "even"
         else:
             mm = "odd"
-        return render_template("6-number_odd_or_even.html", numerito=n, parrafo=mm)
+        return render_template(
+            "6-number_odd_or_even.html", numerito=n, parrafo=mm
+            )
 
 
 if __name__ == "__main__":
